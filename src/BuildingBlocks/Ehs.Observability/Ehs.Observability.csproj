@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Class library (not Sdk.Web) that needs ASP.NET Core middleware/health-check/
+         exception-handling types (IApplicationBuilder, IExceptionHandler, HealthCheckService).
+         FrameworkReference is the standard way to get those without becoming a web app. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Serilog: structured logging is an explicit CLAUDE.md §3 tech-stack requirement. -->
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+
+    <!-- CLAUDE.md §10: Microsoft Entra ID / JWT bearer authentication. 4.14.2 (not the older 3.5.0) since 3.5.0 carries a known moderate-severity advisory (GHSA-rpq8-q44m-2rpg). -->
+    <PackageReference Include="Microsoft.Identity.Web" Version="4.14.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

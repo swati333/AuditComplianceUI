@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\ActionPlan.Domain\ActionPlan.Domain.csproj" />
+    <ProjectReference Include="..\ActionPlan.Contracts\ActionPlan.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
+    <!-- IIntegrationEventHandler<T> — this project hosts the Finding-event consumers. -->
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.EventBus\Ehs.EventBus.csproj" />
+    <!-- Consuming Finding Service's published event *contracts* (DTOs only, no
+         DB access) is the correct, standard way to depend on another service's
+         integration events — never a reference to Finding.Infrastructure/FindingDb. -->
+    <ProjectReference Include="..\..\Finding\Finding.Contracts\Finding.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- CLAUDE.md §3/§9: FluentValidation for centralized Application-layer validation. -->
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

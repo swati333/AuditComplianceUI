@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PagedRequest/PagedResult<T> for list DTOs -->
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
+    <!-- IIntegrationEvent/EventEnvelope shape for this service's wire events -->
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.Contracts\Ehs.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

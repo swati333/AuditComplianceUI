@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Framework-agnostic base types only (AuditableEntity, DomainEvent, AppException
+         hierarchy) - no Infrastructure/ASP.NET Core dependency, consistent with the
+         Clean Architecture rule in CLAUDE.md §4. -->
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

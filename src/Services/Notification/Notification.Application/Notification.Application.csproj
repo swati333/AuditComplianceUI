@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Notification.Domain\Notification.Domain.csproj" />
+    <ProjectReference Include="..\Notification.Contracts\Notification.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
+    <!-- IIntegrationEventHandler<T> — this project hosts the event consumers. -->
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.EventBus\Ehs.EventBus.csproj" />
+    <!-- Real published contracts for the two event types that already have
+         one; the rest (ActionPlan*/Report*) don't exist yet — see
+         Notification.Contracts/ExternalEvents. -->
+    <ProjectReference Include="..\..\Audit\Audit.Contracts\Audit.Contracts.csproj" />
+    <ProjectReference Include="..\..\Finding\Finding.Contracts\Finding.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- CLAUDE.md §3/§9: FluentValidation for centralized Application-layer validation. -->
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

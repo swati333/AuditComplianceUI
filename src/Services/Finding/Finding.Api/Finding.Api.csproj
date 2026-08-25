@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- CLAUDE.md §4: Swagger/OpenAPI with UI on every service. -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <!-- CLAUDE.md §4: FluentValidation wired centrally via an action filter. -->
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <!-- CLAUDE.md §4: /health/ready needs a real DB check, not just "self". -->
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.0" />
+    <!-- EF Core tooling requires the startup project to also reference Design. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Finding.Application\Finding.Application.csproj" />
+    <ProjectReference Include="..\Finding.Infrastructure\Finding.Infrastructure.csproj" />
+    <ProjectReference Include="..\Finding.Contracts\Finding.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.Observability\Ehs.Observability.csproj" />
+  </ItemGroup>
+
+</Project>

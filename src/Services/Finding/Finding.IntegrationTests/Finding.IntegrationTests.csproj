@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.Contracts\Ehs.Contracts.csproj" />
     <ProjectReference Include="..\..\Audit\Audit.Contracts\Audit.Contracts.csproj" />
+    <ProjectReference Include="..\..\ActionPlan\ActionPlan.Contracts\ActionPlan.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -33,12 +33,14 @@ public static class DependencyInjection
 
         services.AddScoped<IFindingRepository, FindingRepository>();
         services.AddScoped<IAuditReferenceRepository, AuditReferenceRepository>();
+        services.AddScoped<IActionPlanReferenceRepository, ActionPlanReferenceRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IActionPlanGateway, ActionPlanGateway>();
 
         services.AddScoped<IntegrationEventConsumer>();
         services.AddScoped<AuditCreatedHandler>();
         services.AddScoped<AuditClosedHandler>();
+        services.AddScoped<ActionPlanAssignedHandler>();
 
         services.AddSingleton<IOutboxEventPublisher, LoggingOutboxEventPublisher>();
         services.AddHostedService<OutboxProcessor>();

@@ -9,6 +9,8 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
     <!-- Consumed Audit event payload types (contracts only, never AuditDb). -->
     <ProjectReference Include="..\..\Audit\Audit.Contracts\Audit.Contracts.csproj" />
+    <!-- Consumed Action Plan event payload types (contracts only, never ActionPlanDb). -->
+    <ProjectReference Include="..\..\ActionPlan\ActionPlan.Contracts\ActionPlan.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

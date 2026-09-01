@@ -1,9 +1,14 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Audit.Application.EventHandlers;
 using Audit.Contracts.Dtos;
 using Audit.Contracts.Requests;
+using Audit.Infrastructure.Messaging;
+using Ehs.Contracts.Events;
+using Finding.Contracts.Events;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Audit.IntegrationTests;
 
@@ -97,6 +102,46 @@ public sealed class AuditLifecycleApiTests : IntegrationTestBase
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         var problem = await response.Content.ReadFromJsonAsync<JsonElement>();
         problem.GetProperty("errorCode").GetString().Should().Be("MANDATORY_QUESTIONS_UNANSWERED");
+    }
+
+    [Fact]
+    public async Task Close_is_rejected_while_a_Critical_finding_is_open_and_succeeds_once_it_resolves()
+    {
+        var audit = await CreateAuditAsync();
+        await AssignTeamMemberAsync(audit.Id, "auditor-3", "Cara Auditor", "Auditor");
+        await Client.PostAsJsonAsync($"/api/v1/audits/{audit.Id}/plan",
+            new PlanAuditRequest(DateTime.UtcNow.Date.AddDays(1), DateTime.UtcNow.Date.AddDays(2)));
+        await Client.PostAsync($"/api/v1/audits/{audit.Id}/start", null);
+        await Client.PostAsync($"/api/v1/audits/{audit.Id}/complete", null);
+
+        var findingId = Guid.NewGuid();
+        using (var scope = Factory.Services.CreateScope())
+        {
+            var consumer = scope.ServiceProvider.GetRequiredService<IntegrationEventConsumer>();
+            var handler = scope.ServiceProvider.GetRequiredService<CriticalFindingCreatedHandler>();
+            await consumer.ConsumeAsync(
+                EventEnvelope.Create(new CriticalFindingCreated(findingId, audit.Id, "Blocked fire exit", DateTime.UtcNow), "FindingService", Guid.NewGuid()),
+                "Audit.CriticalFindingCreatedHandler",
+                handler);
+        }
+
+        var blockedResponse = await Client.PostAsync($"/api/v1/audits/{audit.Id}/close", null);
+        blockedResponse.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        var problem = await blockedResponse.Content.ReadFromJsonAsync<JsonElement>();
+        problem.GetProperty("errorCode").GetString().Should().Be("OPEN_CRITICAL_FINDINGS");
+
+        using (var scope = Factory.Services.CreateScope())
+        {
+            var consumer = scope.ServiceProvider.GetRequiredService<IntegrationEventConsumer>();
+            var handler = scope.ServiceProvider.GetRequiredService<FindingResolvedHandler>();
+            await consumer.ConsumeAsync(
+                EventEnvelope.Create(new FindingResolved(findingId, audit.Id, DateTime.UtcNow), "FindingService", Guid.NewGuid()),
+                "Audit.FindingResolvedHandler",
+                handler);
+        }
+
+        var closed = await PostAndReadAsync($"/api/v1/audits/{audit.Id}/close", null);
+        closed.Status.Should().Be("Closed");
     }
 
     [Fact]

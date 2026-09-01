@@ -1,4 +1,5 @@
 using Audit.Application.Common;
+using Audit.Application.EventHandlers;
 using Audit.Infrastructure.Messaging;
 using Audit.Infrastructure.Persistence;
 using Audit.Infrastructure.Persistence.Repositories;
@@ -33,8 +34,18 @@ public static class DependencyInjection
 
         services.AddScoped<IAuditRepository, AuditRepository>();
         services.AddScoped<IChecklistRepository, ChecklistRepository>();
+        services.AddScoped<IFindingReferenceRepository, FindingReferenceRepository>();
+        services.AddScoped<IOpenCriticalFindingRepository, OpenCriticalFindingRepository>();
+        services.AddScoped<IOpenRequiredActionRepository, OpenRequiredActionRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IAuditComplianceGateway, AuditComplianceGateway>();
+
+        services.AddScoped<IntegrationEventConsumer>();
+        services.AddScoped<FindingCreatedHandler>();
+        services.AddScoped<CriticalFindingCreatedHandler>();
+        services.AddScoped<FindingResolvedHandler>();
+        services.AddScoped<ActionPlanAssignedHandler>();
+        services.AddScoped<ActionPlanStatusChangedHandler>();
 
         services.AddSingleton<IOutboxEventPublisher, LoggingOutboxEventPublisher>();
         services.AddHostedService<OutboxProcessor>();

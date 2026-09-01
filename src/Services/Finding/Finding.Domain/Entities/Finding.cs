@@ -170,9 +170,10 @@ public sealed class Finding : AuditableEntity<Guid>
 
     /// <summary>
     /// <paramref name="hasCorrectiveAction"/> is supplied by the Application
-    /// layer via <c>IActionPlanGateway</c> (Action Plan Service doesn't exist
-    /// yet — see Finding.Infrastructure's ActionPlanGateway placeholder). The
-    /// CLAUDE.md §2 rule itself — High/Critical findings require at least one
+    /// layer via <c>IActionPlanGateway</c>, backed by a local read model kept
+    /// in sync from Action Plan Service's ActionPlanAssigned integration
+    /// event (see Finding.Infrastructure's ActionPlanGateway). The CLAUDE.md
+    /// §2 rule itself — High/Critical findings require at least one
     /// corrective action before they can resolve — is fully enforced here.
     /// </summary>
     public void Resolve(bool hasCorrectiveAction, string modifiedBy)

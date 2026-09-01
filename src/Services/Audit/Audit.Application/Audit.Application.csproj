@@ -4,6 +4,12 @@
     <ProjectReference Include="..\Audit.Domain\Audit.Domain.csproj" />
     <ProjectReference Include="..\Audit.Contracts\Audit.Contracts.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
+    <!-- IIntegrationEventHandler<T> — this project hosts the Finding/Action Plan event consumers. -->
+    <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.EventBus\Ehs.EventBus.csproj" />
+    <!-- Consuming Finding/Action Plan Service's published event *contracts*
+         (DTOs only, no DB access) — never a reference to their Infrastructure/DB. -->
+    <ProjectReference Include="..\..\Finding\Finding.Contracts\Finding.Contracts.csproj" />
+    <ProjectReference Include="..\..\ActionPlan\ActionPlan.Contracts\ActionPlan.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

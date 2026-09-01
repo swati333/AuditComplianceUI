@@ -7,6 +7,9 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.EventBus\Ehs.EventBus.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.Observability\Ehs.Observability.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Ehs.SharedKernel\Ehs.SharedKernel.csproj" />
+    <!-- Consumed Finding/Action Plan event payload types (contracts only, never their DB). -->
+    <ProjectReference Include="..\..\Finding\Finding.Contracts\Finding.Contracts.csproj" />
+    <ProjectReference Include="..\..\ActionPlan\ActionPlan.Contracts\ActionPlan.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

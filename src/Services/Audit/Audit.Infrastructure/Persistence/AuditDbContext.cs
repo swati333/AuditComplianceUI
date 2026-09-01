@@ -33,7 +33,15 @@ public sealed class AuditDbContext : DbContext
 
     public DbSet<Checklist> Checklists => Set<Checklist>();
 
+    public DbSet<FindingReference> FindingReferences => Set<FindingReference>();
+
+    public DbSet<OpenCriticalFinding> OpenCriticalFindings => Set<OpenCriticalFinding>();
+
+    public DbSet<OpenRequiredAction> OpenRequiredActions => Set<OpenRequiredAction>();
+
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
+
+    public DbSet<InboxMessage> InboxMessages => Set<InboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

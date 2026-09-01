@@ -33,6 +33,8 @@ public sealed class FindingDbContext : DbContext
 
     public DbSet<AuditReference> AuditReferences => Set<AuditReference>();
 
+    public DbSet<ActionPlanReference> ActionPlanReferences => Set<ActionPlanReference>();
+
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     public DbSet<InboxMessage> InboxMessages => Set<InboxMessage>();

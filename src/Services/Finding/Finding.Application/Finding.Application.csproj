@@ -10,6 +10,8 @@
          access) is the correct, standard way to depend on another service's
          integration events — never a reference to Audit.Infrastructure/AuditDb. -->
     <ProjectReference Include="..\..\Audit\Audit.Contracts\Audit.Contracts.csproj" />
+    <!-- Same for Action Plan Service's ActionPlanAssigned event contract. -->
+    <ProjectReference Include="..\..\ActionPlan\ActionPlan.Contracts\ActionPlan.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

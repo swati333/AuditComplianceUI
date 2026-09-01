@@ -255,11 +255,9 @@ public sealed class Audit : AuditableEntity<Guid>
 
     /// <summary>
     /// <paramref name="hasOpenCriticalFindings"/>/<paramref name="hasOpenRequiredActions"/>
-    /// are supplied by the Application layer via a compliance-status port.
-    /// Until the Finding/Action Plan services exist and publish their events,
-    /// that port's implementation always reports false (see
-    /// Audit.Infrastructure's AuditComplianceGateway) — the rule itself is
-    /// fully enforced and unit-tested here regardless.
+    /// are supplied by the Application layer via a compliance-status port,
+    /// backed by a local read model synced from Finding/Action Plan Service
+    /// events (see Audit.Infrastructure's AuditComplianceGateway).
     /// </summary>
     public void Close(bool hasOpenCriticalFindings, bool hasOpenRequiredActions, string modifiedBy)
     {

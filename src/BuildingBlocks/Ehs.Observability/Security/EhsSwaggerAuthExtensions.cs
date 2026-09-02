@@ -20,8 +20,8 @@ public static class EhsSwaggerAuthExtensions
 
     public static void AddEhsEntraIdOAuth(this SwaggerGenOptions options, IConfiguration configuration)
     {
-        var tenantId = configuration["AzureAd:TenantId"] ?? "a77d9ea3 - d8ed - 44a3-b296-0d1ca26ce894";
-        var scope = configuration["AzureAd:ApiScope"] ?? "api://ehsmicro.onmicrosoft.com/auditcompliance";
+        var tenantId = configuration["AzureAd:TenantId"] ?? "00000000-0000-0000-0000-000000000000";
+        var scope = configuration["AzureAd:ApiScope"] ?? "api://REPLACE_WITH_API_APP_ID/access_as_user";
 
         options.AddSecurityDefinition(SchemeName, new OpenApiSecurityScheme
         {

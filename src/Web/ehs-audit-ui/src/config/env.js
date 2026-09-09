@@ -14,6 +14,7 @@ const envSchema = z.object({
     VITE_ENTRA_CLIENT_ID: z.string().min(1),
     VITE_ENTRA_TENANT_ID: z.string().min(1),
     VITE_ENTRA_API_SCOPE: z.string().min(1),
+    VITE_ENTRA_TENANT_SUBDOMAIN: z.string().min(1),
 });
 function loadEnv() {
     const parsed = envSchema.safeParse(import.meta.env);
@@ -28,6 +29,7 @@ function loadEnv() {
 const env = loadEnv();
 export const authConfig = {
     tenantId: env.VITE_ENTRA_TENANT_ID,
+    tenantSubdomain: env.VITE_ENTRA_TENANT_SUBDOMAIN,
     clientId: env.VITE_ENTRA_CLIENT_ID,
     apiScope: env.VITE_ENTRA_API_SCOPE,
     /** Computed at runtime, not env-configured — an SPA's redirect URI is always its own origin. */
@@ -40,4 +42,9 @@ export const serviceBaseUrls = {
     actionPlan: env.VITE_ACTION_PLAN_API_URL,
     notification: env.VITE_NOTIFICATION_API_URL,
     reporting: env.VITE_REPORTING_API_URL,
+    tenantId: env.VITE_ENTRA_TENANT_ID,
+    tenantSubdomain: env.VITE_ENTRA_TENANT_SUBDOMAIN,
+    clientId: env.VITE_ENTRA_CLIENT_ID,
+    apiScope: env.VITE_ENTRA_API_SCOPE,
+    redirectUri: window.location.origin,
 };

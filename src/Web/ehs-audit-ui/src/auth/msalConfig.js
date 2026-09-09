@@ -5,10 +5,20 @@ import { authConfig } from '@/config/env';
  * §10: no hard-coded client IDs/tokens) — see .env.example. PKCE + a public
  * client, so no client secret is ever needed here.
  */
+
+const authorityHost =
+  `${authConfig.tenantSubdomain}.ciamlogin.com`;
+// CIAM tenants issue OIDC metadata with the tenant ID (not the vanity
+// subdomain) as the ciamlogin.com host, e.g.
+// https://<tenantId>.ciamlogin.com/<tenantId>/v2.0 — MSAL only recognizes
+// this as a valid issuer if that host is also listed as a known authority.
+const tenantIdAuthorityHost = `${authConfig.tenantId}.ciamlogin.com`;
+
 export const msalConfig = {
     auth: {
         clientId: authConfig.clientId,
-        authority: `https://login.microsoftonline.com/${authConfig.tenantId}`,
+        authority: `https://${authorityHost}/`,
+        knownAuthorities: [authorityHost, tenantIdAuthorityHost],
         redirectUri: authConfig.redirectUri,
         postLogoutRedirectUri: authConfig.redirectUri,
     },

@@ -20,8 +20,8 @@ public static class EhsSwaggerAuthExtensions
 
     public static void AddEhsEntraIdOAuth(this SwaggerGenOptions options, IConfiguration configuration)
     {
-        var tenantId = configuration["AzureAd:TenantId"] ?? "00000000-0000-0000-0000-000000000000";
-        var scope = configuration["AzureAd:ApiScope"] ?? "api://REPLACE_WITH_API_APP_ID/access_as_user";
+        var tenantId = configuration["AzureAd:TenantId"] ?? "a77d9ea3-d8ed-44a3-b296-0d1ca26ce894";
+        var scope = configuration["AzureAd:ApiScope"] ?? "api://375f4edf-ae08-4652-8ad7-a91fe593b6e6/auditcompliance";
 
         options.AddSecurityDefinition(SchemeName, new OpenApiSecurityScheme
         {
@@ -48,7 +48,7 @@ public static class EhsSwaggerAuthExtensions
 
     public static void UseEhsEntraIdOAuth(this SwaggerUIOptions options, IConfiguration configuration)
     {
-        options.OAuthClientId(configuration["AzureAd:SwaggerClientId"] ?? "REPLACE_WITH_SWAGGER_SPA_CLIENT_ID");
+        options.OAuthClientId(configuration["AzureAd:SwaggerClientId"] ?? "e2a20016-3472-4abc-a16a-c8dc8c1a5fd2");
         options.OAuthUsePkce();
     }
 }

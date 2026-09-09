@@ -1,12 +1,20 @@
 # Microsoft Entra ID setup
 
-This platform authenticates every business API with Microsoft Entra ID JWT
-bearer tokens (CLAUDE.md §10). The code ships with **placeholders only** —
-no tenant ID, client ID or secret is committed. This document is what an
-operator needs to do in the Azure Portal (or via `az`/Terraform) to make
-those placeholders real. A resource API validating bearer tokens needs no
-client secret at all, so nothing here is sensitive to hand out to
-developers.
+This platform authenticates every business API with Microsoft Entra
+**External ID (CIAM)** JWT bearer tokens (CLAUDE.md §10) — a `ciamlogin.com`
+tenant, not the classic workforce `login.microsoftonline.com` authority. The
+code ships with **placeholders only** for tenant/client IDs — no secret is
+committed. This document is what an operator needs to do in the Azure
+Portal (or via `az`/Terraform) to make those placeholders real. A resource
+API validating bearer tokens needs no client secret at all, so nothing here
+is sensitive to hand out to developers.
+
+Every service's `AzureAd:Instance` **must** be the CIAM authority
+(`https://<tenant-subdomain>.ciamlogin.com/`), matching the frontend's MSAL
+`authority` in `src/Web/ehs-audit-ui/src/auth/msalConfig.js`. Leaving it at
+the `login.microsoftonline.com` default causes issuer validation to fail
+for every CIAM-issued token — every protected endpoint on every service
+returns 401.
 
 ## 1. Register the API application
 
@@ -73,7 +81,7 @@ Each service's `appsettings.json` has an `AzureAd` section shaped like:
 
 ```json
 "AzureAd": {
-  "Instance": "https://login.microsoftonline.com/",
+  "Instance": "https://REPLACE_WITH_TENANT_SUBDOMAIN.ciamlogin.com/",
   "TenantId": "00000000-0000-0000-0000-000000000000",
   "ClientId": "REPLACE_WITH_API_APP_REGISTRATION_CLIENT_ID",
   "Audience": "api://REPLACE_WITH_API_APP_ID",
@@ -82,7 +90,9 @@ Each service's `appsettings.json` has an `AzureAd` section shaped like:
 }
 ```
 
-Replace `TenantId`/`ClientId`/`Audience`/`ApiScope` with step 1's values and
+Replace `Instance` with your CIAM tenant's `ciamlogin.com` subdomain (same
+value as the frontend's `VITE_ENTRA_TENANT_SUBDOMAIN`),
+`TenantId`/`ClientId`/`Audience`/`ApiScope` with step 1's values, and
 `SwaggerClientId` with step 4's value. **None of these values are secret**
 — they identify applications, they don't authenticate as one. Do not add a
 `ClientSecret` here: this API validates tokens, it does not acquire them,

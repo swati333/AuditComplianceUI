@@ -20,8 +20,10 @@ public static class EhsSwaggerAuthExtensions
 
     public static void AddEhsEntraIdOAuth(this SwaggerGenOptions options, IConfiguration configuration)
     {
+        var instance = configuration["AzureAd:Instance"] ?? "https://ehsmicro.ciamlogin.com/";
         var tenantId = configuration["AzureAd:TenantId"] ?? "a77d9ea3-d8ed-44a3-b296-0d1ca26ce894";
         var scope = configuration["AzureAd:ApiScope"] ?? "api://375f4edf-ae08-4652-8ad7-a91fe593b6e6/auditcompliance";
+        var authorityBase = instance.TrimEnd('/');
 
         options.AddSecurityDefinition(SchemeName, new OpenApiSecurityScheme
         {
@@ -30,8 +32,8 @@ public static class EhsSwaggerAuthExtensions
             {
                 AuthorizationCode = new OpenApiOAuthFlow
                 {
-                    AuthorizationUrl = new Uri($"https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize"),
-                    TokenUrl = new Uri($"https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token"),
+                    AuthorizationUrl = new Uri($"{authorityBase}/{tenantId}/oauth2/v2.0/authorize"),
+                    TokenUrl = new Uri($"{authorityBase}/{tenantId}/oauth2/v2.0/token"),
                     Scopes = new Dictionary<string, string>
                     {
                         [scope] = "Access the API as the signed-in user",

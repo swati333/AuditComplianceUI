@@ -21,6 +21,7 @@ builder.UseEhsSerilog("ActionPlanService");
 builder.Services.AddEhsCorrelation(); // ActionPlanDbContext depends on ICorrelationContextAccessor
 builder.Services.AddEhsExceptionHandling();
 builder.Services.AddEhsEntraIdAuthentication(builder.Configuration);
+builder.Services.AddEhsCors(builder.Configuration);
 
 // --- Application / Infrastructure (this service) ---
 builder.Services.AddHttpContextAccessor();
@@ -51,6 +52,7 @@ var app = builder.Build();
 
 app.UseExceptionHandler();
 app.UseEhsCorrelation();
+app.UseEhsCors();
 
 if (app.Environment.IsDevelopment())
 {
